@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import org.telegram.telegrambots.bots.DefaultBotOptions;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
+import com.d.utegilishev.TelegramBotwithChatGPT.openai.*;
 
 @Configuration
 public class TelegramBotConfigs {
@@ -15,12 +16,14 @@ public class TelegramBotConfigs {
     @SneakyThrows
     public TelegramBot telegramBot(
             @Value("${bot.token}") String botToken,
-            TelegramBotsApi telegramBotsApi
+            TelegramBotsApi telegramBotsApi,
+            aiClient openAIClient
+
     )
      {
         var botOptions = new DefaultBotOptions();
 
-        var bot = new TelegramBot(botOptions,botToken);
+        var bot = new TelegramBot(botOptions,botToken, openAIClient);
         telegramBotsApi.registerBot(bot);
         return bot;
     }
